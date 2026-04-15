@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>DB 관리 시스템</title>
+    <style>
+        /* 기본 폰트 및 배경 설정 */
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        h2 { margin-bottom: 24px; color: #1a73e8; }
+
+        /* 컨트롤 패널 (버튼 & 검색창) */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f1f3f4;
+            border-radius: 8px;
+        }
+
+        .btn-group { display: flex; gap: 10px; }
+
+        /* 버튼 스타일 */
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background-color: #1a73e8;
+            color: white;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        button:hover { background-color: #1557b0; }
+
+        /* 검색 폼 스타일 */
+        .search-form { display: flex; gap: 10px; align-items: center; }
+
+        select, input {
+            padding: 8px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        input:focus { border-color: #1a73e8; }
+
+        /* 테이블 디자인 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #5f6368;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        tr:hover { background-color: #fcfcfc; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>📊 사용자 데이터베이스</h2>
+
+    <div class="controls">
+        <div class="btn-group">
+            <button onclick="location.href='/?sort=name'">이름순 정렬</button>
+            <button onclick="location.href='/?sort=age'">나이순 정렬</button>
+            <button style="background-color: #6c757d;" onclick="location.href='/'">초기화</button>
+        </div>
+
+        <form class="search-form" action="/" method="GET">
+            <select name="search_type">
+                <option value="name">이름</option>
+                <option value="id">아이디</option>
+            </select>
+            <input type="text" name="search_query" placeholder="검색어를 입력하세요...">
+            <button type="submit" style="background-color: #34a853;">검색</button>
+        </form>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>성명</th>
+                <th>연령</th>
+                <th>등급</th>
+                <th>직업</th>
+                <th>적립금</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td><strong>{{ row['id'] }}</strong></td>
+                <td>{{ row['name'] }}</td>
+                <td>{{ row['age'] }}세</td>
+                <td>{{ row['grade'] }}</td>
+                <td>{{ row['job'] }}</td>
+                <td>{{ row['point'] }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3" style="text-align: center; color: #999; padding: 40px;">데이터가 없습니다.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
