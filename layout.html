@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>DKSH Market Admin</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f0f2f5; }
+        .header { background: linear-gradient(135deg, #1a2a6c, #b21f1f); color: white; padding: 30px; text-align: center; }
+        .container { max-width: 1200px; margin: -20px auto 40px; padding: 0 20px; }
+        .nav-tabs { display: flex; list-style: none; background: white; padding: 10px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .nav-tabs li a { text-decoration: none; color: #666; padding: 12px 24px; display: block; font-weight: 500; }
+        .nav-tabs li.active a { background-color: #1a2a6c; color: white; border-radius: 8px; }
+        .content-area { background: white; padding: 30px; border-radius: 12px; margin-top: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        h2 { border-left: 5px solid #1a2a6c; padding-left: 15px; margin-bottom: 20px; color: #1a2a6c; }
+    </style>
+</head>
+<body>
+    <div class="header"><h1>DKSH MARKET</h1></div>
+    <div class="container">
+        <ul class="nav-tabs">
+            <li class="{{ 'active' if request.path == '/' }}"><a href="/">🏠 홈</a></li>
+            <li class="{{ 'active' if request.path == '/customer_list' }}"><a href="/customer_list">👥 고객조회</a></li>
+            <li class="{{ 'active' if request.path == '/product_list' }}"><a href="/product_list">📦 제품조회</a></li>
+            <li><a href="#" onclick="alert('준비 중')">🛒 주문조회</a></li>
+            <li><a href="#" onclick="alert('준비 중')">고객등록/변경</a></li>
+            <li><a href="#" onclick="alert('준비 중')">제품등록/변경</a></li>
+        </ul>
+        <div class="content-area">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
