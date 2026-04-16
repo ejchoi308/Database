@@ -7,7 +7,10 @@ VS Code 설치 및 Python Extension 설치 (필수)<br>
 파일 배치:<br>
 app.py (프로젝트 루트)<br>
 myDB.db (프로젝트 루트 - 이름 확인!)<br>
-templates/index.html (HTML 파일)<br>
+templates/index.html (홈 - HTML 파일)<br>
+templates/layout.html (메뉴 및 스타일 - HTML 파일)<br>
+templates/customer_list.html (고객목록 - HTML 파일)<br>
+templates/product_list.html (제품목록 - HTML 파일)<br>
 코드 수정:<br>
 app.py 파일안에서 <br>
 DB 이름 변경 : conn = sqlite3.connect('myDB.db')<br>
