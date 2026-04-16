@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>👥 고객 정보 통합 조회</h2>
+    <p style="margin-bottom: 20px; color: #666;">검색 및 정렬 기능을 통해 고객 데이터를 관리하세요.</p>
+
+    <div class="controls" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px;">
+        
+        <div class="btn-group">
+            <button class="btn" onclick="location.href='/customer_list?sort=name'">이름순</button>
+            <button class="btn" onclick="location.href='/customer_list?sort=age'">나이순</button>
+            <button class="btn btn-reset" onclick="location.href='/customer_list'">초기화</button>
+        </div>
+
+        <form class="search-form" action="/customer_list" method="GET" style="display: flex; gap: 5px;">
+            <select name="search_type" style="padding: 8px; border-radius: 4px; border: 1px solid #ddd;">
+                <option value="name" {% if request.args.get('search_type') == 'name' %}selected{% endif %}>이름</option>
+                <option value="id" {% if request.args.get('search_type') == 'id' %}selected{% endif %}>아이디</option>
+            </select>
+            <input type="text" name="search_query" value="{{ request.args.get('search_query', '') }}" placeholder="검색어 입력..." style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 200px;">
+            <button type="submit" class="btn btn-search">검색</button>
+        </form>
+    </div>
+
+    <table id="customerTable" style="width:100%; border-collapse: collapse; background: white;">
+        <thead>
+            <tr style="background-color: #1a2a6c; color: white;">
+                <th style="padding: 12px; text-align: left;">ID</th>
+                <th style="padding: 12px; text-align: left;">성명</th>
+                <th style="padding: 12px; text-align: left;">연령</th>
+                <th style="padding: 12px; text-align: left;">등급</th>
+                <th style="padding: 12px; text-align: left;">직업</th>
+                <th style="padding: 12px; text-align: left;">적립금</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td style="padding: 12px; border-bottom: 1px solid #eee;"><strong>{{ row['id'] }}</strong></td>
+                <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ row['name'] }}</td>
+                <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ row['age'] }}세</td>
+                <td style="padding: 12px; border-bottom: 1px solid #eee;"><span class="badge">{{ row['grade'] }}</span></td>
+                <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ row['job'] }}</td>
+                <td style="padding: 12px; border-bottom: 1px solid #eee;">
+                    {% if row['point'] %}
+                        {{ "{:,}".format(row['point'] | int) }} P
+                    {% else %}
+                        0 P
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" style="text-align: center; color: #999; padding: 40px;">조회된 데이터가 없습니다.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .btn { 
+        padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; 
+        background-color: #e9ecef; transition: 0.3s; font-size: 0.9rem;
+    }
+    .btn:hover { background-color: #dee2e6; }
+    .btn-reset { background-color: #6c757d; color: white; }
+    .btn-search { background-color: #34a853; color: white; }
+    .badge { background: #f1f4ff; color: #1a2a6c; padding: 2px 8px; border-radius: 10px; font-size: 0.85rem; font-weight: bold; }
+    table tbody tr:hover { background-color: #fcfcfc; }
+</style>
+{% endblock %}
