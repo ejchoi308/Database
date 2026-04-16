@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>📦 제품 정보 통합 조회</h2>
+    <p style="margin-bottom: 20px; color: #666;">검색 및 정렬 기능을 통해 제품 데이터를 관리하세요.</p>
+
+    <div class="controls" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px;">
+        
+        <div class="btn-group">
+            <button class="btn" onclick="location.href='/product_list?sort=pname'">제품명순</button>
+            <button class="btn" onclick="location.href='/product_list?sort=price'">가격순</button>
+            <button class="btn btn-reset" onclick="location.href='/product_list'">초기화</button>
+        </div>
+
+        <form class="search-form" action="/product_list" method="GET" style="display: flex; gap: 5px;">
+            <select name="search_type" style="padding: 8px; border-radius: 4px; border: 1px solid #ddd;">
+                <option value="pname" {% if request.args.get('search_type') == 'pname' %}selected{% endif %}>제품명</option>
+                <option value="brand" {% if request.args.get('search_type') == 'brand' %}selected{% endif %}>제조업체</option>
+            </select>
+            <input type="text" name="search_query" value="{{ request.args.get('search_query', '') }}" placeholder="검색어 입력..." style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 200px;">
+            <button type="submit" class="btn btn-search">검색</button>
+        </form>
+    </div>
+
+    <table id="productTable" style="width:100%; border-collapse: collapse; background: white;">
+        <thead>
+            <tr style="background-color: #1a2a6c; color: white;">
+                <th style="padding: 12px; text-align: left;">제품번호</th>
+                <th style="padding: 12px; text-align: left;">제품명</th>
+                <th style="padding: 12px; text-align: left;">재고</th>
+                <th style="padding: 12px; text-align: left;">가격</th>
+                <th style="padding: 12px; text-align: left;">제조업체</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td style="padding: 12px; border-bottom: 1px solid #eee;"><strong>{{ row['pno'] }}</strong></td>
+                <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ row['pname'] }}</td>
+                <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ row['stock'] }}</td>
+                <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ row['price'] }}원</td>
+                <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ row['brand'] }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" style="text-align: center; color: #999; padding: 40px;">조회된 데이터가 없습니다.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .btn { 
+        padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; 
+        background-color: #e9ecef; transition: 0.3s; font-size: 0.9rem;
+    }
+    .btn:hover { background-color: #dee2e6; }
+    .btn-reset { background-color: #6c757d; color: white; }
+    .btn-search { background-color: #34a853; color: white; }
+    .badge { background: #f1f4ff; color: #1a2a6c; padding: 2px 8px; border-radius: 10px; font-size: 0.85rem; font-weight: bold; }
+    table tbody tr:hover { background-color: #fcfcfc; }
+</style>
+{% endblock %}
